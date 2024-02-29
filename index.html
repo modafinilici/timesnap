@@ -2,6 +2,7 @@
   <head>
     <title>Time Tracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
       body {
         font-family: "Roboto", sans-serif;
@@ -46,7 +47,7 @@
         border: 1px solid #ccc;
         border-radius: 4px;
         padding: 8px;
-        width: calc(100% - 96px); /* Adjusted for smaller screens below */
+        width: calc(100% - 96px);
         margin-right: 8px;
       }
       input:focus {
@@ -69,27 +70,42 @@
         border-bottom: 1px solid #eee;
         padding: 8px 0;
       }
-    
-      /* Responsive adjustments */
-      @media (max-width: 768px) { /* Tablet and down */
+
+      /* Media query for tablets */
+      @media (max-width: 768px) {
+        body {
+          padding: 15px;
+        }
         #time-tracker {
           padding: 15px;
         }
-        input[type="text"], button {
-          width: 100%; /* Make input and button full width */
-          margin: 8px 0; /* Add some margin for vertical spacing */
+        h1, h2 {
+          font-size: 1.5em; /* Increase font size for readability */
         }
-        .edit-btn, .save-btn, .delete-btn {
-          margin: 5px 0; /* Adjust margin for smaller screens */
+        .edit-btn, .save-btn, .delete-btn, button {
+          padding: 12px 18px; /* Larger touch targets */
+          font-size: 1em; /* Larger text for buttons */
+        }
+        input[type="text"] {
+          padding: 12px; /* Larger touch area */
+          width: calc(100% - 20px); /* Adjust width for smaller screens */
         }
       }
-    
-      @media (max-width: 480px) { /* Mobile */
-        body {
-          padding: 10px; /* Reduce padding */
+
+      /* Media query for mobile phones */
+      @media (max-width: 480px) {
+        #time-tracker {
+          margin: 0; /* Use full width */
+          max-width: none;
         }
         h1, h2 {
-          font-size: 1.5em; /* Adjust heading sizes for smaller screens */
+          font-size: 1.2em; /* Adjust font size for very small screens */
+        }
+        .edit-btn, .save-btn, .delete-btn, button {
+          padding: 10px 15px; /* Adjust touch targets for smaller screens */
+        }
+        input[type="text"] {
+          width: calc(100% - 10px); /* Adjust width for very small screens */
         }
       }
     </style>
