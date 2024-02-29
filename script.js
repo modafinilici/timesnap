@@ -1,4 +1,4 @@
-d = function () {
+window.onload = function () {
   loadLogEntries();
   bindEnterKeyToAddLap();
   updateCurrentTime();
