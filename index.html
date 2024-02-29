@@ -26,7 +26,7 @@
 <body>
   <main id="time-tracker">
     <h1>Time Tracker</h1>
-    <form id="task-form">
+    <form id="task-form" onsubmit="return false;">
       <div id="current-time"></div>
       <input type="text" id="text-input" aria-label="Enter task description" placeholder="Enter task description" />
       <button type="button" onclick="addLap()" aria-label="Add Lap">Add Lap</button>

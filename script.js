@@ -2,6 +2,10 @@ window.onload = function () {
   loadLogEntries();
   bindEnterKeyToAddLap();
   updateCurrentTime();
+  document.getElementById('task-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    addLap();
+  });
 };
 
 setInterval(updateCurrentTime, 1000); // Update current time every second
