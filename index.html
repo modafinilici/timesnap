@@ -46,7 +46,7 @@
         border: 1px solid #ccc;
         border-radius: 4px;
         padding: 8px;
-        width: calc(100% - 96px);
+        width: calc(100% - 96px); /* Adjusted for smaller screens below */
         margin-right: 8px;
       }
       input:focus {
@@ -68,6 +68,29 @@
       #log div {
         border-bottom: 1px solid #eee;
         padding: 8px 0;
+      }
+    
+      /* Responsive adjustments */
+      @media (max-width: 768px) { /* Tablet and down */
+        #time-tracker {
+          padding: 15px;
+        }
+        input[type="text"], button {
+          width: 100%; /* Make input and button full width */
+          margin: 8px 0; /* Add some margin for vertical spacing */
+        }
+        .edit-btn, .save-btn, .delete-btn {
+          margin: 5px 0; /* Adjust margin for smaller screens */
+        }
+      }
+    
+      @media (max-width: 480px) { /* Mobile */
+        body {
+          padding: 10px; /* Reduce padding */
+        }
+        h1, h2 {
+          font-size: 1.5em; /* Adjust heading sizes for smaller screens */
+        }
       }
     </style>
   </head>
