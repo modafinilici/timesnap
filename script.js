@@ -18,22 +18,23 @@ function updateCurrentTime() {
 }
 
 function createButton(buttonType, text) {
-  const btn = document.createElement("i");
-  let iconClass = '';
+  const btn = document.createElement("button");
+  let buttonText = '';
   switch (buttonType) {
     case 'edit':
-      iconClass = 'fas fa-edit';
+      buttonText = 'Edit';
       break;
     case 'delete':
-      iconClass = 'fas fa-trash';
+      buttonText = 'Delete';
       break;
     default:
       console.error('Unknown button type:', buttonType);
       return;
   }
-  btn.className = `${iconClass} ${buttonType}-btn`; // Add both the icon class and the buttonType-btn class
+  btn.className = `${buttonType}-btn`; // Use buttonType-btn class for styling
   btn.setAttribute("title", text); // Use title attribute for tooltip
   btn.setAttribute("data-action", buttonType);
+  btn.textContent = buttonText; // Set button text
   return btn;
 }
 
