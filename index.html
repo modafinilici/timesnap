@@ -1,21 +1,27 @@
-<html>
-  <head>
-    <title>Time Tracker</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  </head>
-  <body>
-    <div id="time-tracker">
-      <h1>Time Tracker</h1>
-      <button onclick="exportLogsToCSV()">Export Logs to CSV</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Time Tracker</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Track your time efficiently with the Time Tracker app.">
+</head>
+<body>
+  <main id="time-tracker">
+    <h1>Time Tracker</h1>
+    <form id="task-form">
       <div id="current-time"></div>
-      <input type="text" id="text-input" placeholder="Enter task description" />
-      <button onclick="addLap()">Add Lap</button>
-      <h2>Log:</h2>
+      <input type="text" id="text-input" aria-label="Enter task description" placeholder="Enter task description" />
+      <button type="button" onclick="addLap()" aria-label="Add Lap">Add Lap</button>
+    </form>
+    <section aria-labelledby="log-section">
+      <h2 id="log-section">Log:</h2>
+      <button type="button" onclick="exportLogsToCSV()" aria-label="Export Logs to CSV">Export Logs to CSV</button>
       <div id="log"></div>
-    </div>
-    <script src="script.js"></script>
-  </body>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
 </html>

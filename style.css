@@ -63,6 +63,8 @@ button:hover {
 #log div {
   border-bottom: 1px solid #eee;
   padding: 8px 0;
+  max-height: 200px; /* Set a maximum height */
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
 /* Media query for tablets */
