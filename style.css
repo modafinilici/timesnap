@@ -1,0 +1,104 @@
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #f5f5f7;
+  color: #333;
+  margin: 0;
+  padding: 20px;
+}
+#time-tracker {
+  max-width: 600px;
+  margin: auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+h1,
+h2 {
+  color: #333;
+}
+.edit-btn,
+.save-btn,
+.delete-btn {
+  margin-left: 10px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+.edit-btn:hover,
+.save-btn:hover,
+.delete-btn:hover {
+  text-decoration: underline;
+}
+.edit-btn,
+.save-btn {
+  color: #007bff;
+}
+.delete-btn {
+  color: #ff0000; /* Red color for delete button */
+}
+input[type="text"] {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  width: calc(100% - 96px);
+  margin-right: 8px;
+}
+input:focus {
+  outline: 2px solid #007bff;
+  border-color: #007bff;
+}
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+button:hover {
+  background-color: #0056b3;
+}
+#log div {
+  border-bottom: 1px solid #eee;
+  padding: 8px 0;
+}
+
+/* Media query for tablets */
+@media (max-width: 768px) {
+  body {
+    padding: 15px;
+  }
+  #time-tracker {
+    padding: 15px;
+  }
+  h1, h2 {
+    font-size: 1.5em; /* Increase font size for readability */
+  }
+  .edit-btn, .save-btn, .delete-btn, button {
+    padding: 12px 18px; /* Larger touch targets */
+    font-size: 1em; /* Larger text for buttons */
+  }
+  input[type="text"] {
+    padding: 12px; /* Larger touch area */
+    width: calc(100% - 20px); /* Adjust width for smaller screens */
+  }
+}
+
+/* Media query for mobile phones */
+@media (max-width: 480px) {
+  #time-tracker {
+    margin: 0; /* Use full width */
+    max-width: none;
+  }
+  h1, h2 {
+    font-size: 1.2em; /* Adjust font size for very small screens */
+  }
+  .edit-btn, .save-btn, .delete-btn, button {
+    padding: 10px 15px; /* Adjust touch targets for smaller screens */
+  }
+  input[type="text"] {
+    width: calc(100% - 10px); /* Adjust width for very small screens */
+  }
+}
