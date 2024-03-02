@@ -140,7 +140,7 @@ th:nth-child(3), td:nth-child(3) { /* Actions column */
   width: 20%;
 }
 
-/* Media query for tablets */
+/* Media query for tablets and mobile phones */
 @media (max-width: 768px) {
   body {
     padding: 15px;
@@ -159,20 +159,19 @@ th:nth-child(3), td:nth-child(3) { /* Actions column */
     padding: 12px; /* Larger touch area */
     width: calc(100% - 20px); /* Adjust width for smaller screens */
   }
-}
-/* Media query for mobile phones */
-@media (max-width: 480px) {
-  #time-tracker {
-    margin: 0; /* Use full width */
-    max-width: none;
-  }
-  h1, h2 {
-    font-size: 1.2em; /* Adjust font size for very small screens */
-  }
-  .edit-btn, .save-btn, .delete-btn, button {
-    padding: 10px 15px; /* Adjust touch targets for smaller screens */
-  }
-  input[type="text"] {
-    width: calc(100% - 10px); /* Adjust width for very small screens */
+  @media (max-width: 480px) {
+    #time-tracker {
+      margin: 0; /* Use full width */
+      max-width: none;
+    }
+    h1, h2 {
+      font-size: 1.2em; /* Adjust font size for very small screens */
+    }
+    .edit-btn, .save-btn, .delete-btn, button {
+      padding: 10px 15px; /* Adjust touch targets for smaller screens */
+    }
+    input[type="text"] {
+      width: calc(100% - 10px); /* Adjust width for very small screens */
+    }
   }
 }

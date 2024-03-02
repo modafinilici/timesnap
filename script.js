@@ -99,8 +99,11 @@ function makeTaskCellEditable(entryRow, logEntry) {
   taskCell.appendChild(input);
   input.focus();
 
-  input.addEventListener("click", function(event) {
-    event.stopPropagation();
+  // Simplified event handling
+  ["click", "mousedown"].forEach(eventType => {
+    input.addEventListener(eventType, function(event) {
+      event.stopPropagation(); // Prevent event from propagating
+    });
   });
 
   input.addEventListener("keyup", function(event) {
@@ -110,10 +113,6 @@ function makeTaskCellEditable(entryRow, logEntry) {
     } else if (event.key === "Escape") {
       taskCell.textContent = originalContent; // Restore original content
     }
-  });
-
-  input.addEventListener("mousedown", function(event) {
-    event.stopPropagation(); // Prevent event from propagating when mouse is down
   });
 
   input.addEventListener("blur", function() {
