@@ -21,10 +21,6 @@ function createButton(buttonType, text) {
   const btn = document.createElement("button");
   let buttonText = '';
   switch (buttonType) {
-    case 'delete':
-      buttonText = 'Delete';
-      btn.className = "delete-btn"; // Ensure this matches your CSS class
-      break;
     case 'save':
       buttonText = 'Save';
       btn.className = "save-btn"; // Ensure this matches your CSS class
@@ -63,13 +59,6 @@ function createAndAppendLogRow(timestamp, task, parentElement = document.querySe
   const taskCell = document.createElement("td");
   taskCell.textContent = task;
   newRow.appendChild(taskCell);
-
-  // Actions cell
-  const actionsCell = document.createElement("td");
-  actionsCell.className = "actions-cell";
-  const deleteBtn = createButton("delete", "Delete");
-  actionsCell.appendChild(deleteBtn);
-  newRow.appendChild(actionsCell);
 
   parentElement.appendChild(newRow);
 }
@@ -120,15 +109,34 @@ function makeTaskCellEditable(entryRow, logEntry) {
   });
 }
 
-// Attach event listener to the parent table body for editability
-document.querySelector("#log table tbody").addEventListener("click", function(event) {
-  // Check if the clicked element is a task cell
-  const taskCell = event.target.closest("td:nth-child(2)");
-  if (taskCell) {
-    const entryRow = taskCell.closest("tr");
-    const logEntry = extractLogEntry(entryRow);
-    makeTaskCellEditable(entryRow, logEntry);
-  }
+let lastSelectedRowIndex = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  const tableBody = document.querySelector("#log table tbody");
+
+  tableBody.addEventListener("click", function(event) {
+    const row = event.target.closest("tr");
+    if (!row) return;
+
+    const rowIndex = Array.from(tableBody.querySelectorAll("tr")).indexOf(row);
+    const isCtrlPressed = event.ctrlKey || event.metaKey; // metaKey for MacOS
+    const isShiftPressed = event.shiftKey;
+
+    if (isShiftPressed && lastSelectedRowIndex !== null) {
+      const start = Math.min(rowIndex, lastSelectedRowIndex);
+      const end = Math.max(rowIndex, lastSelectedRowIndex);
+      for (let i = start; i <= end; i++) {
+        tableBody.querySelectorAll("tr")[i].classList.add('selected-row');
+      }
+    } else if (isCtrlPressed) {
+      row.classList.toggle('selected-row');
+    } else {
+      document.querySelectorAll("#log table tbody tr").forEach(tr => tr.classList.remove('selected-row'));
+      row.classList.add('selected-row');
+    }
+
+    lastSelectedRowIndex = rowIndex;
+  });
 });
 
 function saveEntry(entryRow, newTask, timestamp) {
@@ -141,11 +149,6 @@ function saveEntry(entryRow, newTask, timestamp) {
   const taskCell = entryRow.querySelector("td:nth-child(2)");
   taskCell.textContent = newTask; // Update the task cell with the new value
 
-  saveLogToLocalStorage();
-}
-
-function deleteEntry(entryRow) {
-  entryRow.remove(); // Remove the row from the table
   saveLogToLocalStorage();
 }
 
@@ -178,11 +181,6 @@ document.getElementById("log").addEventListener("click", function (event) {
   if (!entryRow) return;
   const logEntry = extractLogEntry(entryRow);
   const actions = {
-    delete: () => {
-      if (confirm("Are you sure you want to delete this entry?")) {
-        deleteEntry(entryRow);
-      }
-    },
     save: () => saveEntry(entryRow, document.querySelector(".edit-input").value, logEntry.timestamp)
   };
   const actionFunction = actions[action];
@@ -243,3 +241,16 @@ function exportLogsToCSV() {
   link.click();
   document.body.removeChild(link);
 }
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === "Delete") {
+    // Check if there are any selected rows to delete
+    const selectedRows = document.querySelectorAll("#log table tbody tr.selected-row");
+    if (selectedRows.length > 0 && confirm("Are you sure you want to delete the selected row(s)?")) {
+      selectedRows.forEach(row => {
+        row.remove(); // This line replaces the call to deleteEntry
+      });
+      saveLogToLocalStorage();
+    }
+  }
+});

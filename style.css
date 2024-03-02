@@ -19,14 +19,13 @@ h2 {
   color: #333;
 }
 .edit-btn,
-.save-btn,
-.delete-btn {
+.save-btn {
   margin-left: 10px;
   cursor: pointer;
   border: none;
   background-color: transparent;
 }
-button:hover, .edit-btn:hover, .save-btn:hover, .delete-btn:hover {
+button:hover, .edit-btn:hover, .save-btn:hover {
   background-color: #b8b8b8; /* Subtle change */
   text-decoration: none; /* Remove underline */
   color: #0056b3; /* Darker blue for better visibility on hover */
@@ -35,9 +34,7 @@ button:hover, .edit-btn:hover, .save-btn:hover, .delete-btn:hover {
 .save-btn {
   color: #007bff;
 }
-.delete-btn {
-  color: #d00; /* A slightly darker red for better contrast */
-}
+
 input[type="text"] {
   border: 1px solid #ccc;
   border-radius: 8px; /* More rounded corners */
@@ -96,7 +93,7 @@ td.actions-cell {
   flex-wrap: nowrap; /* Prevents wrapping of flex items */
 }
 
-.edit-btn, .delete-btn, .save-btn {
+.edit-btn, .save-btn {
   flex: 0 1 auto;
   padding: 5px 10px;
   margin: 0;
@@ -134,12 +131,9 @@ th:nth-child(1), td:nth-child(1) { /* Timestamp column */
 }
 
 th:nth-child(2), td:nth-child(2) { /* Task column */
-  width: 60%;
+  width: 80%;
 }
 
-th:nth-child(3), td:nth-child(3) { /* Actions column */
-  width: 20%;
-}
 
 /* Media query for tablets and mobile phones */
 @media (max-width: 768px) {
@@ -152,7 +146,7 @@ th:nth-child(3), td:nth-child(3) { /* Actions column */
   h1, h2 {
     font-size: 1.5em; /* Increase font size for readability */
   }
-  .edit-btn, .save-btn, .delete-btn, button {
+  .edit-btn, .save-btn, button {
     padding: 12px 18px; /* Larger touch targets */
     font-size: 1em; /* Larger text for buttons */
   }
@@ -168,11 +162,14 @@ th:nth-child(3), td:nth-child(3) { /* Actions column */
     h1, h2 {
       font-size: 1.2em; /* Adjust font size for very small screens */
     }
-    .edit-btn, .save-btn, .delete-btn, button {
+    .edit-btn, .save-btn, button {
       padding: 10px 15px; /* Adjust touch targets for smaller screens */
     }
     input[type="text"] {
       width: calc(100% - 10px); /* Adjust width for very small screens */
     }
   }
+}
+.selected-row {
+  background-color: #a8d0e6; /* Light blue background for selected rows */
 }
