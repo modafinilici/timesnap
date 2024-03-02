@@ -81,7 +81,6 @@ function addLap() {
   logTableBody.appendChild(newRow);
 
   saveLogToLocalStorage();
-  attachClickToEditTaskCell(newRow, { timestamp: now, task: task });
 }
 
 function makeTaskCellEditable(entryRow, logEntry) {
@@ -96,40 +95,38 @@ function makeTaskCellEditable(entryRow, logEntry) {
   taskCell.appendChild(input);
   input.focus();
 
+  input.addEventListener("click", function(event) {
+    event.stopPropagation();
+  });
+
   input.addEventListener("keyup", function(event) {
+    event.stopPropagation(); // Prevent event from propagating when key is pressed
     if (event.key === "Enter") {
       saveEntry(entryRow, input.value, logEntry.timestamp);
     } else if (event.key === "Escape") {
       taskCell.textContent = originalContent; // Restore original content
-      attachClickToEditTaskCell(entryRow, logEntry); // Re-attach click-to-edit functionality
     }
   });
 
   input.addEventListener("mousedown", function(event) {
-    event.preventDefault();
+    event.stopPropagation(); // Prevent event from propagating when mouse is down
   });
 
   input.addEventListener("blur", function() {
     taskCell.textContent = originalContent;
-    attachClickToEditTaskCell(entryRow, logEntry);
   });
 }
 
-function attachClickToEditTaskCell(entryRow, logEntry) {
-  const taskCell = entryRow.querySelector("td:nth-child(2)");
-  taskCell.style.cursor = "pointer"; // Optional: Change cursor to indicate editability
-
-  // Remove any existing click listeners to prevent duplicates
-  taskCell.removeEventListener("click", taskCell.clickEventListener);
-
-  // Define the click event listener
-  taskCell.clickEventListener = function() {
+// Attach event listener to the parent table body for editability
+document.querySelector("#log table tbody").addEventListener("click", function(event) {
+  // Check if the clicked element is a task cell
+  const taskCell = event.target.closest("td:nth-child(2)");
+  if (taskCell) {
+    const entryRow = taskCell.closest("tr");
+    const logEntry = extractLogEntry(entryRow);
     makeTaskCellEditable(entryRow, logEntry);
-  };
-
-  // Attach the click event listener
-  taskCell.addEventListener("click", taskCell.clickEventListener);
-}
+  }
+});
 
 function saveEntry(entryRow, newTask, timestamp) {
   // Input validation: Ensure newTask is not empty or only whitespace
@@ -140,10 +137,6 @@ function saveEntry(entryRow, newTask, timestamp) {
 
   const taskCell = entryRow.querySelector("td:nth-child(2)");
   taskCell.textContent = newTask; // Update the task cell with the new value
-
-  // Re-attach click-to-edit functionality
-  const logEntry = { timestamp, task: newTask };
-  attachClickToEditTaskCell(entryRow, logEntry);
 
   saveLogToLocalStorage();
 }
@@ -187,7 +180,6 @@ function loadLogEntries() {
       newRow.appendChild(actionsCell);
 
       logTableBody.appendChild(newRow);
-      attachClickToEditTaskCell(newRow, logEntry);
     });
   }
 }
