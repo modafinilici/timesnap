@@ -4,6 +4,7 @@ body {
   color: #222; /* Darker text color for better contrast */
   margin: 0;
   padding: 20px;
+  font-size: 16px; /* Adjust base font size */
 }
 #time-tracker {
   max-width: 900px;
@@ -26,8 +27,8 @@ h2 {
   background-color: transparent;
 }
 button:hover, .edit-btn:hover, .save-btn:hover, .delete-btn:hover {
-  background-color: #b8b8b8; /* General background color for hover */
-  text-decoration: underline;
+  background-color: #b8b8b8; /* Subtle change */
+  text-decoration: none; /* Remove underline */
   color: #0056b3; /* Darker blue for better visibility on hover */
 }
 .edit-btn,
@@ -39,8 +40,8 @@ button:hover, .edit-btn:hover, .save-btn:hover, .delete-btn:hover {
 }
 input[type="text"] {
   border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 8px;
+  border-radius: 8px; /* More rounded corners */
+  padding: 8px; /* Increased padding */
   width: calc(100% - 96px);
   margin-right: 8px;
 }
@@ -52,8 +53,8 @@ button {
   background-color: #005ec2;
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  padding: 8px 16px; /* Increased padding */
+  border-radius: 8px; /* More rounded corners */
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
