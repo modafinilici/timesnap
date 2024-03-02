@@ -25,9 +25,8 @@ h2 {
   border: none;
   background-color: transparent;
 }
-.edit-btn:hover,
-.save-btn:hover,
-.delete-btn:hover {
+button:hover, .edit-btn:hover, .save-btn:hover, .delete-btn:hover {
+  background-color: #b8b8b8; /* General background color for hover */
   text-decoration: underline;
   color: #0056b3; /* Darker blue for better visibility on hover */
 }
@@ -57,9 +56,6 @@ button {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-}
-button:hover {
-  background-color: #b8b8b8;
 }
 #log div {
   border-bottom: 1px solid #eee;

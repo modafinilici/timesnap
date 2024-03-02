@@ -50,6 +50,30 @@ function getFormattedDateTime() {
   }).replace(',', ''); // Remove the comma after the date
 }
 
+// New function to create and append log row
+function createAndAppendLogRow(timestamp, task, parentElement = document.querySelector("#log table tbody")) {
+  const newRow = document.createElement("tr");
+
+  // Timestamp cell
+  const timestampCell = document.createElement("td");
+  timestampCell.textContent = timestamp;
+  newRow.appendChild(timestampCell);
+
+  // Task cell
+  const taskCell = document.createElement("td");
+  taskCell.textContent = task;
+  newRow.appendChild(taskCell);
+
+  // Actions cell
+  const actionsCell = document.createElement("td");
+  actionsCell.className = "actions-cell";
+  const deleteBtn = createButton("delete", "Delete");
+  actionsCell.appendChild(deleteBtn);
+  newRow.appendChild(actionsCell);
+
+  parentElement.appendChild(newRow);
+}
+
 function addLap() {
   const taskInput = document.getElementById("text-input");
   if (taskInput.value.trim() === "") return;
@@ -58,27 +82,7 @@ function addLap() {
   const task = taskInput.value;
   taskInput.value = "";
 
-  const logTableBody = document.querySelector("#log table tbody");
-  const newRow = document.createElement("tr");
-
-  // Create and append the timestamp cell
-  const timestampCell = document.createElement("td");
-  timestampCell.textContent = now;
-  newRow.appendChild(timestampCell);
-
-  // Create and append the task cell
-  const taskCell = document.createElement("td");
-  taskCell.textContent = task;
-  newRow.appendChild(taskCell);
-
-  // Create and append the actions cell
-  const actionsCell = document.createElement("td");
-  actionsCell.className = "actions-cell"; // Assign the class
-  const deleteBtn = createButton("delete", "Delete");
-  actionsCell.appendChild(deleteBtn);
-  newRow.appendChild(actionsCell);
-
-  logTableBody.appendChild(newRow);
+  createAndAppendLogRow(now, task); // Use the new function
 
   saveLogToLocalStorage();
 }
@@ -163,23 +167,7 @@ function loadLogEntries() {
     logTableBody.innerHTML = ""; // Clear existing entries
 
     savedLog.forEach((logEntry) => {
-      const newRow = document.createElement("tr");
-
-      const timestampCell = document.createElement("td");
-      timestampCell.textContent = logEntry.timestamp;
-      newRow.appendChild(timestampCell);
-
-      const taskCell = document.createElement("td");
-      taskCell.textContent = logEntry.task;
-      newRow.appendChild(taskCell);
-
-      const actionsCell = document.createElement("td");
-      actionsCell.className = "actions-cell"; // Assign the class
-      const deleteBtn = createButton("delete", "Delete");
-      actionsCell.appendChild(deleteBtn);
-      newRow.appendChild(actionsCell);
-
-      logTableBody.appendChild(newRow);
+      createAndAppendLogRow(logEntry.timestamp, logEntry.task, logTableBody); // Use the new function
     });
   }
 }
