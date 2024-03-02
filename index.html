@@ -24,15 +24,16 @@
 </head>
 <body>
   <main id="time-tracker">
-    <h1>Time Tracker</h1>
+    <div id="current-time"></div>
     <form id="task-form" onsubmit="return false;">
-      <div id="current-time"></div>
+
       <input type="text" id="text-input" aria-label="Enter task description" placeholder="Enter task description" />
-      <button type="button" onclick="addLap()" aria-label="Add Lap">Add Lap</button>
+      <button type="button" onclick="addLap()" aria-label="Add Lap">Add</button>
+      <button type="button" onclick="exportLogsToCSV()" aria-label="Export Logs to CSV">Export</button>
     </form>
     <section aria-labelledby="log-section">
       <h2 id="log-section">Log:</h2>
-      <button type="button" onclick="exportLogsToCSV()" aria-label="Export Logs to CSV">Export Logs to CSV</button>
+
       <div id="log"></div>
     </section>
   </main>
