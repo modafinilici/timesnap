@@ -1,18 +1,18 @@
 body {
-  font-family: "Roboto", sans-serif;
-  background-color: #f5f5f7;
-  color: #222; /* Darker text color for better contrast */
+  font-family: "Inter", Arial, sans-serif;
+  background-color: #fafafa;
+  color: #222;
   margin: 0;
   padding: 20px;
-  font-size: 16px; /* Adjust base font size */
+  font-size: 15px;
 }
 #time-tracker {
-  max-width: 900px;
+  max-width: 850px;
   margin: auto;
-  background-color: #fff;
+  background-color: #ffffff;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
 }
 h1,
 h2 {
@@ -26,9 +26,9 @@ h2 {
   background-color: transparent;
 }
 button:hover, .edit-btn:hover, .save-btn:hover {
-  background-color: #b8b8b8; /* Subtle change */
-  text-decoration: none; /* Remove underline */
-  color: #0056b3; /* Darker blue for better visibility on hover */
+  background-color: #f0f0f0;
+  text-decoration: none;
+  color: #0056b3;
 }
 .edit-btn,
 .save-btn {
@@ -36,54 +36,55 @@ button:hover, .edit-btn:hover, .save-btn:hover {
 }
 
 input[type="text"] {
-  border: 1px solid #ccc;
-  border-radius: 8px; /* More rounded corners */
-  padding: 8px; /* Increased padding */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px;
   width: calc(100% - 96px);
   margin-right: 8px;
 }
 input:focus {
-  outline: 2px solid #0056b3; /* Use the darker blue for better visibility */
+  outline: 2px solid #0056b3;
   border-color: #007bff;
 }
 button {
   background-color: #005ec2;
   color: white;
   border: none;
-  padding: 8px 16px; /* Increased padding */
-  border-radius: 8px; /* More rounded corners */
+  padding: 8px 16px;
+  border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 #log div {
   border-bottom: 1px solid #eee;
   padding: 8px 0;
-  max-height: 200px; /* Set a maximum height */
-  overflow-y: auto; /* Enable vertical scrolling */
+  max-height: 200px;
+  overflow-y: auto;
 }
 #task-form {
   position: sticky;
   top: 0;
-  background-color: #fff; /* Ensure the form's background is solid */
-  z-index: 1000; /* Ensure it stays above other content */
-  padding: 10px 0; /* Optional: Add some padding for visual separation */
-  border-bottom: 1px solid #eee; /* Optional: Add a border for visual separation */
-  display: flex; /* Make the form a flex container */
-  align-items: center; /* Align items vertically */
-  gap: 10px; /* Space between the input field and button */
+  background-color: #fff;
+  z-index: 1000;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed; /* Add this line */
+  table-layout: fixed;
 }
 
 th, td {
   text-align: left;
   padding: 8px;
-  overflow: visible; /* Change to visible to allow wrapping */
-  text-overflow: clip; /* Change to clip to avoid ellipsis */
-  white-space: normal; /* Change to normal to enable text wrapping */
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  vertical-align: top;
 }
 
 .edit-btn, .save-btn {
@@ -97,38 +98,34 @@ button {
   white-space: nowrap;
 }
 
-/* Style for task cells to indicate editability */
-td:nth-child(2) { /* Targeting the second column, assuming it's the task column */
-  position: relative; /* Needed for absolute positioning of the edit icon */
-  padding-right: 30px; /* Increase right padding to make space for the edit icon */
+td:nth-child(2) {
+  position: relative;
+  padding-right: 20px;
 }
 
 td:nth-child(2):hover {
-  background-color: #f3f3f3; /* Light background on hover */
-  cursor: text; /* Change cursor to indicate text can be edited */
+  background-color: #f9f9f9;
+  cursor: text;
 }
 
 td:nth-child(2):hover::after {
-  content: '\270E'; /* Pencil icon */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Ensure the icon uses a common font */
+  content: '\270E';
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   position: absolute;
-  right: 5px; /* Adjust the position of the icon if needed */
+  right: 5px;
   top: 50%;
   transform: translateY(-50%);
-  color: #007bff; /* Theme color for the icon */
+  color: #007bff;
 }
 
-/* Set explicit widths for the table columns */
-th:nth-child(1), td:nth-child(1) { /* Timestamp column */
+th:nth-child(1), td:nth-child(1) {
   width: 20%;
 }
 
-th:nth-child(2), td:nth-child(2) { /* Task column */
+th:nth-child(2), td:nth-child(2) {
   width: 80%;
 }
 
-
-/* Media query for tablets and mobile phones */
 @media (max-width: 768px) {
   body {
     padding: 15px;
@@ -137,42 +134,42 @@ th:nth-child(2), td:nth-child(2) { /* Task column */
     padding: 15px;
   }
   h1, h2 {
-    font-size: 1.5em; /* Increase font size for readability */
+    font-size: 1.5em;
   }
   .edit-btn, .save-btn, button {
-    padding: 12px 18px; /* Larger touch targets */
-    font-size: 1em; /* Larger text for buttons */
+    padding: 12px 18px;
+    font-size: 1em;
   }
   input[type="text"] {
-    padding: 12px; /* Larger touch area */
-    width: calc(100% - 20px); /* Adjust width for smaller screens */
+    padding: 12px;
+    width: calc(100% - 20px);
   }
   @media (max-width: 480px) {
     #time-tracker {
-      margin: 0; /* Use full width */
+      margin: 0;
       max-width: none;
     }
     h1, h2 {
-      font-size: 1.2em; /* Adjust font size for very small screens */
+      font-size: 1.2em;
     }
     .edit-btn, .save-btn, button {
-      padding: 10px 15px; /* Adjust touch targets for smaller screens */
+      padding: 10px 15px;
     }
     input[type="text"] {
-      width: calc(100% - 10px); /* Adjust width for very small screens */
+      width: calc(100% - 10px);
     }
     td:nth-child(1), th:nth-child(1) {
-      width: 45%; /* Adjust the width as needed */
-      white-space: nowrap; /* Keep timestamp on a single line */
+      width: 45%;
+      white-space: nowrap;
     }
     td:nth-child(2), th:nth-child(2) {
-      width: 55%; /* Adjust the remaining width for the task column */
-      white-space: normal; /* Allow text wrapping */
-      overflow: hidden; /* Hide overflow */
-      text-overflow: ellipsis; /* Add ellipsis to text that overflows */
+      width: 55%;
+      white-space: normal;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }
 .selected-row {
-  background-color: #a8d0e6; /* Light blue background for selected rows */
+  background-color: #a8d0e6;
 }
