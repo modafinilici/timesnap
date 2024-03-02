@@ -23,16 +23,17 @@
   </script>
 </head>
 <body>
-  <main id="time-tracker">
-    <div id="current-time"></div>
-    <form id="task-form" onsubmit="return false;">
 
+  <main id="time-tracker">
+    <h1 id="title">Lifelogging</h1>
+    <!-- <div id="current-time"></div> -->
+    <form id="task-form" onsubmit="return false;">
+      
       <input type="text" id="text-input" aria-label="Enter task description" placeholder="Enter task description" />
       <button type="button" onclick="addLap()" aria-label="Add Lap">Add</button>
       <button type="button" onclick="exportLogsToCSV()" aria-label="Export Logs to CSV">Export</button>
     </form>
     <section aria-labelledby="log-section">
-      <h2 id="log-section">Log:</h2>
 
       <div id="log"></div>
     </section>
