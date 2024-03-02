@@ -86,13 +86,6 @@ th, td {
   white-space: normal; /* Change to normal to enable text wrapping */
 }
 
-td.actions-cell {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: nowrap; /* Prevents wrapping of flex items */
-}
-
 .edit-btn, .save-btn {
   flex: 0 1 auto;
   padding: 5px 10px;
@@ -167,6 +160,16 @@ th:nth-child(2), td:nth-child(2) { /* Task column */
     }
     input[type="text"] {
       width: calc(100% - 10px); /* Adjust width for very small screens */
+    }
+    td:nth-child(1), th:nth-child(1) {
+      width: 45%; /* Adjust the width as needed */
+      white-space: nowrap; /* Keep timestamp on a single line */
+    }
+    td:nth-child(2), th:nth-child(2) {
+      width: 55%; /* Adjust the remaining width for the task column */
+      white-space: normal; /* Allow text wrapping */
+      overflow: hidden; /* Hide overflow */
+      text-overflow: ellipsis; /* Add ellipsis to text that overflows */
     }
   }
 }
