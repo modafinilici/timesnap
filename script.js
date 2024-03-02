@@ -60,6 +60,12 @@ function createAndAppendLogRow(timestamp, task, parentElement = document.querySe
   taskCell.textContent = task;
   newRow.appendChild(taskCell);
 
+  // Add click event listener to the task cell for editing
+  taskCell.addEventListener('click', function() {
+    const logEntry = { timestamp: timestamp, task: task };
+    makeTaskCellEditable(newRow, logEntry);
+  });
+
   parentElement.appendChild(newRow);
 }
 
@@ -99,13 +105,14 @@ function makeTaskCellEditable(entryRow, logEntry) {
     event.stopPropagation(); // Prevent event from propagating when key is pressed
     if (event.key === "Enter") {
       saveEntry(entryRow, input.value, logEntry.timestamp);
+      taskCell.textContent = input.value; // Update the cell with the new value
     } else if (event.key === "Escape") {
       taskCell.textContent = originalContent; // Restore original content
     }
   });
 
   input.addEventListener("blur", function() {
-    taskCell.textContent = originalContent;
+    taskCell.textContent = originalContent; // Restore original content if focus is lost without saving
   });
 }
 
