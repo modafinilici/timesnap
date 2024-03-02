@@ -6,7 +6,7 @@ body {
   padding: 20px;
 }
 #time-tracker {
-  max-width: 800px;
+  max-width: 900px;
   margin: auto;
   background-color: #fff;
   padding: 20px;
@@ -78,6 +78,71 @@ button:hover {
   align-items: center; /* Align items vertically */
   gap: 10px; /* Space between the input field and button */
 }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Add this line */
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+  overflow: visible; /* Change to visible to allow wrapping */
+  text-overflow: clip; /* Change to clip to avoid ellipsis */
+  white-space: normal; /* Change to normal to enable text wrapping */
+}
+
+td.actions-cell {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: nowrap; /* Prevents wrapping of flex items */
+}
+
+.edit-btn, .delete-btn, .save-btn {
+  flex: 0 1 auto;
+  padding: 5px 10px;
+  margin: 0;
+  cursor: pointer;
+}
+
+button {
+  white-space: nowrap;
+}
+
+/* Style for task cells to indicate editability */
+td:nth-child(2) { /* Targeting the second column, assuming it's the task column */
+  position: relative; /* Needed for absolute positioning of the edit icon */
+  padding-right: 30px; /* Increase right padding to make space for the edit icon */
+}
+
+td:nth-child(2):hover {
+  background-color: #f3f3f3; /* Light background on hover */
+  cursor: text; /* Change cursor to indicate text can be edited */
+}
+
+td:nth-child(2):hover::after {
+  content: '\270E'; /* Pencil icon */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Ensure the icon uses a common font */
+  position: absolute;
+  right: 5px; /* Adjust the position of the icon if needed */
+  top: 50%;
+  transform: translateY(-50%);
+  color: #007bff; /* Theme color for the icon */
+}
+
+/* Set explicit widths for the table columns */
+th:nth-child(1), td:nth-child(1) { /* Timestamp column */
+  width: 20%;
+}
+
+th:nth-child(2), td:nth-child(2) { /* Task column */
+  width: 60%;
+}
+
+th:nth-child(3), td:nth-child(3) { /* Actions column */
+  width: 20%;
+}
 
 /* Media query for tablets */
 @media (max-width: 768px) {
@@ -99,7 +164,6 @@ button:hover {
     width: calc(100% - 20px); /* Adjust width for smaller screens */
   }
 }
-
 /* Media query for mobile phones */
 @media (max-width: 480px) {
   #time-tracker {

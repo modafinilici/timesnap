@@ -21,17 +21,18 @@ function createButton(buttonType, text) {
   const btn = document.createElement("button");
   let buttonText = '';
   switch (buttonType) {
-    case 'edit':
-      buttonText = 'Edit';
-      break;
     case 'delete':
       buttonText = 'Delete';
+      btn.className = "delete-btn"; // Ensure this matches your CSS class
+      break;
+    case 'save':
+      buttonText = 'Save';
+      btn.className = "save-btn"; // Ensure this matches your CSS class
       break;
     default:
       console.error('Unknown button type:', buttonType);
       return;
   }
-  btn.className = `${buttonType}-btn`; // Use buttonType-btn class for styling
   btn.setAttribute("title", text); // Use title attribute for tooltip
   btn.setAttribute("data-action", buttonType);
   btn.textContent = buttonText; // Set button text
@@ -53,79 +54,110 @@ function addLap() {
   const taskInput = document.getElementById("text-input");
   if (taskInput.value.trim() === "") return;
 
-  const now = getFormattedDateTime(); // Use the new formatting function
+  const now = getFormattedDateTime();
   const task = taskInput.value;
   taskInput.value = "";
 
-  const log = document.getElementById("log");
-  const newEntry = document.createElement("div");
-  const logEntry = { timestamp: now, task: task };
-  newEntry.textContent = `${logEntry.timestamp} - ${logEntry.task}`;
+  const logTableBody = document.querySelector("#log table tbody");
+  const newRow = document.createElement("tr");
 
-  const editBtn = createButton("edit", "Edit");
+  // Create and append the timestamp cell
+  const timestampCell = document.createElement("td");
+  timestampCell.textContent = now;
+  newRow.appendChild(timestampCell);
+
+  // Create and append the task cell
+  const taskCell = document.createElement("td");
+  taskCell.textContent = task;
+  newRow.appendChild(taskCell);
+
+  // Create and append the actions cell
+  const actionsCell = document.createElement("td");
+  actionsCell.className = "actions-cell"; // Assign the class
   const deleteBtn = createButton("delete", "Delete");
+  actionsCell.appendChild(deleteBtn);
+  newRow.appendChild(actionsCell);
 
-  newEntry.appendChild(editBtn);
-  newEntry.appendChild(deleteBtn);
-  log.appendChild(newEntry);
+  logTableBody.appendChild(newRow);
 
   saveLogToLocalStorage();
+  attachClickToEditTaskCell(newRow, { timestamp: now, task: task });
 }
 
-
-function editEntry(entryDiv, logEntry) {
-  const buttons = entryDiv.querySelectorAll(".edit-btn, .delete-btn");
-  entryDiv.innerHTML = "";
-  buttons.forEach((button) => entryDiv.appendChild(button));
+function makeTaskCellEditable(entryRow, logEntry) {
+  const taskCell = entryRow.querySelector("td:nth-child(2)");
+  const originalContent = taskCell.textContent;
+  taskCell.innerHTML = "";
 
   const input = document.createElement("input");
   input.type = "text";
   input.value = logEntry.task;
   input.classList.add("edit-input");
-
-  const saveBtn = document.createElement("button");
-  saveBtn.textContent = "Save";
-  saveBtn.classList.add("save-btn");
-  saveBtn.onclick = () =>
-    saveEntry(entryDiv, input.value, logEntry.timestamp);
-
-  // Bind Enter key to save action for the edit input field
-  input.onkeyup = function (e) {
-    if (e.keyCode === 13) {
-      // Enter key
-      saveEntry(entryDiv, input.value, logEntry.timestamp);
-    }
-  };
-
-  entryDiv.insertBefore(input, buttons[0]);
-  entryDiv.replaceChild(saveBtn, buttons[0]);
+  taskCell.appendChild(input);
   input.focus();
+
+  input.addEventListener("keyup", function(event) {
+    if (event.key === "Enter") {
+      saveEntry(entryRow, input.value, logEntry.timestamp);
+    } else if (event.key === "Escape") {
+      taskCell.textContent = originalContent; // Restore original content
+      attachClickToEditTaskCell(entryRow, logEntry); // Re-attach click-to-edit functionality
+    }
+  });
+
+  input.addEventListener("mousedown", function(event) {
+    event.preventDefault();
+  });
+
+  input.addEventListener("blur", function() {
+    taskCell.textContent = originalContent;
+    attachClickToEditTaskCell(entryRow, logEntry);
+  });
 }
 
-function saveEntry(entryDiv, newTask, timestamp) {
-  // Ensure timestamp includes both date and time if modifying it
-  const logEntry = { timestamp: timestamp, task: newTask };
-  entryDiv.innerHTML = `${logEntry.timestamp} - ${logEntry.task}`;
+function attachClickToEditTaskCell(entryRow, logEntry) {
+  const taskCell = entryRow.querySelector("td:nth-child(2)");
+  taskCell.style.cursor = "pointer"; // Optional: Change cursor to indicate editability
 
-  const editBtn = createButton("edit", "Edit");
-  const deleteBtn = createButton("delete", "Delete");
+  // Remove any existing click listeners to prevent duplicates
+  taskCell.removeEventListener("click", taskCell.clickEventListener);
 
-  entryDiv.appendChild(editBtn);
-  entryDiv.appendChild(deleteBtn);
+  // Define the click event listener
+  taskCell.clickEventListener = function() {
+    makeTaskCellEditable(entryRow, logEntry);
+  };
+
+  // Attach the click event listener
+  taskCell.addEventListener("click", taskCell.clickEventListener);
+}
+
+function saveEntry(entryRow, newTask, timestamp) {
+  // Input validation: Ensure newTask is not empty or only whitespace
+  if (!newTask.trim()) {
+    alert("Task cannot be empty.");
+    return; // Exit the function without saving
+  }
+
+  const taskCell = entryRow.querySelector("td:nth-child(2)");
+  taskCell.textContent = newTask; // Update the task cell with the new value
+
+  // Re-attach click-to-edit functionality
+  const logEntry = { timestamp, task: newTask };
+  attachClickToEditTaskCell(entryRow, logEntry);
 
   saveLogToLocalStorage();
 }
 
-function deleteEntry(entryDiv) {
-  entryDiv.remove();
+function deleteEntry(entryRow) {
+  entryRow.remove(); // Remove the row from the table
   saveLogToLocalStorage();
 }
 
 function saveLogToLocalStorage() {
   const logEntries = [];
-  document.querySelectorAll("#log > div").forEach((entryDiv) => {
-    // Use extractLogEntry to get the log entry details
-    const { timestamp, task } = extractLogEntry(entryDiv);
+  document.querySelectorAll("#log table tbody tr").forEach((row) => {
+    const timestamp = row.cells[0].textContent;
+    const task = row.cells[1].textContent;
     logEntries.push({ timestamp, task });
   });
   localStorage.setItem("timeTrackerLog", JSON.stringify(logEntries));
@@ -134,18 +166,28 @@ function saveLogToLocalStorage() {
 function loadLogEntries() {
   const savedLog = JSON.parse(localStorage.getItem("timeTrackerLog"));
   if (savedLog) {
-    const log = document.getElementById("log");
-    log.innerHTML = "";
+    const logTableBody = document.querySelector("#log table tbody");
+    logTableBody.innerHTML = ""; // Clear existing entries
+
     savedLog.forEach((logEntry) => {
-      const entryDiv = document.createElement("div");
-      entryDiv.textContent = `${logEntry.timestamp} - ${logEntry.task}`;
+      const newRow = document.createElement("tr");
 
-      const editBtn = createButton("edit", "Edit");
+      const timestampCell = document.createElement("td");
+      timestampCell.textContent = logEntry.timestamp;
+      newRow.appendChild(timestampCell);
+
+      const taskCell = document.createElement("td");
+      taskCell.textContent = logEntry.task;
+      newRow.appendChild(taskCell);
+
+      const actionsCell = document.createElement("td");
+      actionsCell.className = "actions-cell"; // Assign the class
       const deleteBtn = createButton("delete", "Delete");
+      actionsCell.appendChild(deleteBtn);
+      newRow.appendChild(actionsCell);
 
-      entryDiv.appendChild(editBtn);
-      entryDiv.appendChild(deleteBtn);
-      log.appendChild(entryDiv);
+      logTableBody.appendChild(newRow);
+      attachClickToEditTaskCell(newRow, logEntry);
     });
   }
 }
@@ -153,15 +195,16 @@ function loadLogEntries() {
 document.getElementById("log").addEventListener("click", function (event) {
   const target = event.target;
   const action = target.getAttribute("data-action");
-  const entryDiv = target.closest("div");
-  const logEntry = extractLogEntry(entryDiv);
+  const entryRow = target.closest("tr");
+  if (!entryRow) return;
+  const logEntry = extractLogEntry(entryRow);
   const actions = {
-    edit: () => editEntry(entryDiv, logEntry),
     delete: () => {
       if (confirm("Are you sure you want to delete this entry?")) {
-        deleteEntry(entryDiv);
+        deleteEntry(entryRow);
       }
-    }
+    },
+    save: () => saveEntry(entryRow, document.querySelector(".edit-input").value, logEntry.timestamp)
   };
   const actionFunction = actions[action];
   if (actionFunction) {
@@ -169,11 +212,9 @@ document.getElementById("log").addEventListener("click", function (event) {
   }
 });
 
-function extractLogEntry(entryDiv) {
-  const textContent = entryDiv.childNodes[0].nodeValue.trim();
-  const splitIndex = textContent.lastIndexOf(" - ");
-  const timestamp = textContent.substring(0, splitIndex);
-  const task = textContent.substring(splitIndex + 3);
+function extractLogEntry(entryRow) {
+  const timestamp = entryRow.cells[0].textContent;
+  const task = entryRow.cells[1].textContent;
   return { timestamp, task };
 }
 
