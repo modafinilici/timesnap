@@ -48,28 +48,11 @@ function getFormattedDateTime() {
 
 // New function to create and append log row
 function createAndAppendLogRow(timestamp, task, parentElement = document.querySelector("#log table tbody")) {
-  const newRowDate = new Date(timestamp.split(",")[0]); // Assuming timestamp format allows this split
-  const lastRow = parentElement.lastElementChild;
-  let lastRowDate = lastRow ? new Date(lastRow.querySelector("td").textContent.split(",")[0]) : null;
-
-  // Check if the new row's date is different from the last row's date
-  if (!lastRow || newRowDate.toDateString() !== lastRowDate.toDateString()) {
-    const dateRow = document.createElement("tr");
-    const dateCell = document.createElement("td");
-    dateCell.textContent = newRowDate.toDateString();
-    dateCell.colSpan = "2"; // Assuming there are 2 columns
-    dateRow.appendChild(dateCell);
-    dateRow.classList.add("date-header"); // Add class for styling
-    parentElement.appendChild(dateRow);
-  }
-
   const newRow = document.createElement("tr");
 
   // Timestamp cell
   const timestampCell = document.createElement("td");
-  // Splitting timestamp into date and time
-  const [date, time] = timestamp.split(", ");
-  timestampCell.innerHTML = `<span class="date-hidden">${date}, </span>${time}`; // Hide the date part and the comma
+  timestampCell.textContent = timestamp;
   newRow.appendChild(timestampCell);
 
   // Task cell
