@@ -189,4 +189,6 @@ th:nth-child(2), td:nth-child(2) {
 }
 .date-hidden {
   display: none;
+}#log thead th {
+  display: none;
 }
