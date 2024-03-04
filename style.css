@@ -189,4 +189,9 @@ th:nth-child(2), td:nth-child(2) {
 }
 .date-hidden {
   display: none;
+}table thead th {
+  visibility: hidden;
+  height: 0;
+  padding: 0;
+  border: none;
 }
