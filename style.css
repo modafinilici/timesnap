@@ -72,6 +72,7 @@ button {
   align-items: center;
   gap: 10px;
 }
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -129,6 +130,7 @@ th:nth-child(2), td:nth-child(2) {
 @media (max-width: 768px) {
   body {
     padding: 15px;
+    padding-bottom: 70px; /* Adjusted for task form height */
   }
   #time-tracker {
     padding: 15px;
@@ -143,6 +145,12 @@ th:nth-child(2), td:nth-child(2) {
   input[type="text"] {
     padding: 12px;
     width: calc(100% - 20px);
+  }
+  #task-form {
+    position: fixed;
+    bottom: 0;
+    top: auto;
+    
   }
   @media (max-width: 480px) {
     #time-tracker {
